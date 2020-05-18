@@ -1,0 +1,8 @@
+#!fsharp
+
+#r "nuget:NumSharp"
+open NumSharp
+
+#!fsharp
+
+open NumSharp
