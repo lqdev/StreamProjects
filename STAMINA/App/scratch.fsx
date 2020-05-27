@@ -1,30 +1,19 @@
 open System.IO
 
 
-let filePath = Path.Combine(__SOURCE_DIRECTORY__,"mybinary.txt")
-printfn "%s" filePath
-let binaryFileBytes = File.ReadAllBytes(filePath)
-
-printfn "%A" binaryFile
-
-let imgWidth = 128
-let imgHeight = 128
-let dims = imgWidth * imgHeight
-let pad = dims - binaryFileBytes.Length
-let imgBytes = 
-    Array.zeroCreate<byte> pad
-    |> Array.append  binaryFileBytes
-
-imgBytes.Length
+// let filePath = Path.Combine(__SOURCE_DIRECTORY__,"mybinary.txt")
+// printfn "%s" filePath
+// let binaryFileBytes = File.ReadAllBytes(filePath)
 
 
-#I "C:/Users/lqdev/.nuget/packages"
-#r "system.drawing.common/4.7.0/lib/net461/System.Drawing.Common.dll"
+let getFiles directory = 
+    Directory.GetFiles(directory)
+    |> Array.filter(fun filePath -> 
+        let ext = Path.GetExtension(filePath)
+        (ext = ".pdf") ||  (ext = ".txt"))
 
-// #r "nuget:System.Drawing.Common"
+__SOURCE_DIRECTORY__
 
-open System.Drawing
+let mainFiles = getFiles __SOURCE_DIRECTORY__
 
-use ms = new MemoryStream(imgBytes)
-let img = Image.FromStream(ms)
-img.Save("img.jpeg")
+mainFiles |> Array.iter(printfn "%s")
