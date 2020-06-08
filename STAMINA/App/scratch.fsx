@@ -17,3 +17,42 @@ __SOURCE_DIRECTORY__
 let mainFiles = getFiles __SOURCE_DIRECTORY__
 
 mainFiles |> Array.iter(printfn "%s")
+
+// Get files of specific extension type
+let getFiles directory extension = 
+    Directory.GetFiles(directory)
+    |> Array.filter(fun filePath -> 
+        let ext = Path.GetExtension(filePath)
+        (ext=extension))
+
+// Get the first file train data files with .bytes extension
+let trainFiles = 
+    getFiles "/datadrive/trainData" ".bytes"
+    |> Array.take 5
+
+
+type DataInput = {
+    FileName:string
+    Label:string
+}
+
+// Create DataInput by using CSV with file name and label
+let trainingData (fileName:string) (hasHeader:bool) = 
+
+    let skipRows = 
+        match hasHeader with
+        | true -> 1
+        | false -> 0
+
+    File.ReadAllLines(fileName)
+    |> Array.skip skipRows
+    |> Array.map(fun line -> 
+        let cols = line.Split(',')
+        {
+            FileName=(sprintf "/datadrive/%s.bytes" cols.[0])
+            Label=cols.[1]
+        }
+    )
+
+let trainData = trainingData "/datadrive/trainLabels.csv" true
+
