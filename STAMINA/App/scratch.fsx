@@ -56,3 +56,13 @@ let trainingData (fileName:string) (hasHeader:bool) =
 
 let trainData = trainingData "/datadrive/trainLabels.csv" true
 
+let extensions = 
+    Directory.GetFiles("/datadrive/trainData")
+    |> Array.map(fun filePath -> filePath.Split(".").[1])
+    |> Array.distinct
+
+let getFiles directory extension = 
+    Directory.GetFiles(directory)
+    |> Array.filter(fun filePath -> Path.GetExtension(filePath) = extension)
+    
+getFiles "/datadrive/trainData" ".bytes"

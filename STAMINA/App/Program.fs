@@ -1,13 +1,16 @@
 open System
 open System.IO
 open System.Drawing
+open FSharp.Collections.ParallelSeq
 
 let getFilesBytes (filePath:string) = 
     File.ReadAllBytes filePath |> Array.map float32
 
 let padArrayWithZeros (n:int) (firstArray:float32 array) = 
-    Array.zeroCreate<float32> n |> Array.append firstArray
-
+    match n with 
+    | 0 -> firstArray
+    | _ -> Array.zeroCreate<float32> n |> Array.append firstArray
+    
 let setColors (vals:float32 array) position a r g b = 
     let a' = vals.[position + a]
     let r' = vals.[position + r]
@@ -25,20 +28,19 @@ let getImageWidth fileBytes =
     | x when (x > 200 && x < 100) -> 512
     | x when (x > 1000 && x < 1500) -> 1024
     | x when x > 1500 -> 2048
+    | _ -> 2048
 
-let getFiles directory = 
+let getFiles directory extension = 
     Directory.GetFiles(directory)
-    |> Array.filter(fun filePath -> 
-        let ext = Path.GetExtension(filePath)
-        (ext = ".pdf") ||  (ext = ".txt"))
+    |> Array.filter(fun filePath -> Path.GetExtension(filePath) = extension)
 
 [<EntryPoint>]
 let main argv =
     
-    let files = getFiles "."
+    let files = getFiles "/datadrive/trainData" ".bytes"
 
     files
-    |> Array.iter(fun filePath -> 
+    |> PSeq.iter(fun filePath -> 
     
         let fileName = Path.GetFileNameWithoutExtension filePath
         let binaryFileBytes = getFilesBytes filePath
@@ -46,7 +48,7 @@ let main argv =
         let imgWidth = getImageWidth binaryFileBytes.Length
         let imgHeight = imgWidth
         let dims = imgWidth * imgHeight * 3
-        let pad = dims - binaryFileBytes.Length
+        let pad = max 0 (dims - binaryFileBytes.Length)
         let imagePixels = padArrayWithZeros pad binaryFileBytes
         let iters = imgWidth - 1
     
@@ -62,8 +64,9 @@ let main argv =
     
                 dst.SetPixel(x,y,pixel)
 
-        let outFileName = sprintf "%s.jpg" fileName
+        let outFileName = sprintf "/datadrive/trainImages/%s.jpg" fileName
         dst.Save(outFileName, Imaging.ImageFormat.Jpeg)
+        printfn "processed %s" fileName
     )
 
     
