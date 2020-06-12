@@ -37,7 +37,7 @@ let getFiles directory extension =
 [<EntryPoint>]
 let main argv =
     
-    let files = getFiles "/datadrive/trainData" ".bytes"
+    let files = getFiles "/datadrive/testData" ".bytes"
 
     files
     |> PSeq.iter(fun filePath -> 
