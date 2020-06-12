@@ -64,27 +64,9 @@ let main argv =
     
                 dst.SetPixel(x,y,pixel)
 
-        let outFileName = sprintf "/datadrive/trainImages/%s.jpg" fileName
+        let outFileName = sprintf "/datadrive/testImages/%s.jpg" fileName
         dst.Save(outFileName, Imaging.ImageFormat.Jpeg)
         printfn "processed %s" fileName
     )
 
-    
-
-
-
-
-    
-
     0
-
-    
-
-    
-    // 2. Convert to image
-    
-    
-    // 3. Use transfer learning to train a model to classify images
-    
-    
-    // 4. Evaluate model
