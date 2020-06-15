@@ -55,6 +55,8 @@ let main argv =
     trainerOptions.FeatureColumnName <- "Image" 
     trainerOptions.LabelColumnName <- "LabelAsKey"
     trainerOptions.WorkspacePath <- "workspace"
+    trainerOptions.ReuseTrainSetBottleneckCachedValues <- true
+    trainerOptions.ReuseValidationSetBottleneckCachedValues <- true
     trainerOptions.MetricsCallback <- Action<ImageClassificationTrainer.ImageClassificationMetrics>(fun x -> printfn "%s" (x.ToString()))
 
     let trainerPipeline = EstimatorChain().Append(ctx.MulticlassClassification.Trainers.ImageClassification(trainerOptions))
