@@ -27,3 +27,15 @@ let getImageData trainFileName (sep:char) hasHeader dataDir ext =
     )
 
 getImageData "/datadrive/trainLabels.csv" ',' true "/datadrive/trainImages" "jpg"
+
+[<CLIMutable>]
+type ImagePrediction = {
+    PredictedLabel:string
+    Score: single array
+}
+
+
+let imageTestData = 
+    Directory.GetFiles("/datadrive/testImages")
+    |> Array.map(fun filePath -> 
+    {ImagePath=filePath;Label=""})

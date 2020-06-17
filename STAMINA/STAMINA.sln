@@ -7,6 +7,8 @@ Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "App", "App\App.fsproj", "{E
 EndProject
 Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "TrainingConsole", "TrainingConsole\TrainingConsole.fsproj", "{C770DD13-EE02-47DA-A356-F1C90314D670}"
 EndProject
+Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "PredictConsole", "PredictConsole\PredictConsole.fsproj", "{2BD6D27C-08F2-4BFE-A0F7-339681D488E0}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -44,5 +46,17 @@ Global
 		{C770DD13-EE02-47DA-A356-F1C90314D670}.Release|x64.Build.0 = Release|Any CPU
 		{C770DD13-EE02-47DA-A356-F1C90314D670}.Release|x86.ActiveCfg = Release|Any CPU
 		{C770DD13-EE02-47DA-A356-F1C90314D670}.Release|x86.Build.0 = Release|Any CPU
+		{2BD6D27C-08F2-4BFE-A0F7-339681D488E0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2BD6D27C-08F2-4BFE-A0F7-339681D488E0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2BD6D27C-08F2-4BFE-A0F7-339681D488E0}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{2BD6D27C-08F2-4BFE-A0F7-339681D488E0}.Debug|x64.Build.0 = Debug|Any CPU
+		{2BD6D27C-08F2-4BFE-A0F7-339681D488E0}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{2BD6D27C-08F2-4BFE-A0F7-339681D488E0}.Debug|x86.Build.0 = Debug|Any CPU
+		{2BD6D27C-08F2-4BFE-A0F7-339681D488E0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2BD6D27C-08F2-4BFE-A0F7-339681D488E0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2BD6D27C-08F2-4BFE-A0F7-339681D488E0}.Release|x64.ActiveCfg = Release|Any CPU
+		{2BD6D27C-08F2-4BFE-A0F7-339681D488E0}.Release|x64.Build.0 = Release|Any CPU
+		{2BD6D27C-08F2-4BFE-A0F7-339681D488E0}.Release|x86.ActiveCfg = Release|Any CPU
+		{2BD6D27C-08F2-4BFE-A0F7-339681D488E0}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
