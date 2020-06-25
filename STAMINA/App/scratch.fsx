@@ -27,8 +27,9 @@ let getFiles directory extension =
 
 // Get the first file train data files with .bytes extension
 let trainFiles = 
-    getFiles "/datadrive/trainData" ".bytes"
-    |> Array.take 5
+    getFiles "/datadrive/testData" ".bytes"
+    |> Array.distinct
+    |> Array.length
 
 
 type DataInput = {
@@ -65,4 +66,4 @@ let getFiles directory extension =
     Directory.GetFiles(directory)
     |> Array.filter(fun filePath -> Path.GetExtension(filePath) = extension)
     
-getFiles "/datadrive/trainData" ".bytes"
+getFiles "/datadrive/trainData" ".asm" |> Array.length

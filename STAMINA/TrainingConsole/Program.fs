@@ -82,11 +82,11 @@ let main argv =
     ctx.Model.Save(model,imageIdv.Schema,"MLModel.zip")
 
     //Load test data
-    let testPredictions = 
-        Directory.GetFiles("/datadrive/testImages")
-        |> Array.map(fun filePath -> 
-            {ImagePath=filePath;Label=""})
-        |> ctx.Data.LoadFromEnumerable
-        |> model.Transform
+    // let testPredictions = 
+    //     Directory.GetFiles("/datadrive/testImages")
+    //     |> Array.map(fun filePath -> 
+    //         {ImagePath=filePath;Label=""})
+    //     |> ctx.Data.LoadFromEnumerable
+    //     |> model.Transform
 
     0 // return an integer exit code

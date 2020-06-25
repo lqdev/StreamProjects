@@ -36,7 +36,7 @@ let getFiles directory extension =
 
 [<EntryPoint>]
 let main argv =
-    
+
     let files = getFiles "/datadrive/testData" ".bytes"
 
     files
