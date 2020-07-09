@@ -11,7 +11,7 @@ The data used for this project comes from the [Kaggle Microsoft Malware Classifi
 ## Project Structure
 
 - **App**: F# .NET Core Core Console application to encode file bytes as an image.
-- **TrainingConsole**: F# .NET Core Console application that uses ML.NET's Image Classification API to train 
+- **TrainingConsole**: F# .NET Core Console application that uses ML.NET's Image Classification API to train a deep learning model that categorizes malware.
 - **PredictiConsole**: F# .NET Core Console application that uses the trained model from *TrainingConsole* to make predictions on the test data.
 
 ### Flow
