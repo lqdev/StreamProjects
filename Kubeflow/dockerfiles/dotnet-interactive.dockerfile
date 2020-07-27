@@ -55,6 +55,7 @@ RUN dotnet_sdk_version=3.1.301 \
 # COPY ./NuGet.config ${HOME}/nuget.config
 
 RUN chown -R ${NB_UID} ${HOME}
+# RUN ls -la ${HOME}
 USER ${USER}
 
 #Install nteract 
@@ -74,5 +75,13 @@ ENV DOTNET_TRY_CLI_TELEMETRY_OPTOUT=false
 
 # Set root to Notebooks
 WORKDIR ${HOME}/Notebooks/
+USER root
+RUN chown -R ${NB_UID} ${HOME}/Notebooks/
+USER ${USER}
 
-CMD ["sh","-c","jupyter notebook --ip=0.0.0.0 --no-browser --allow-root --port=8888 --NotebookApp.token='' --NotebookApp.password='' --NotebookApp.allow_origin='*'"]
+# RUN ls -la ${HOME}
+# RUN chown -R ${NB_UID} ${HOME}/.local
+
+# CMD ["sh","-c","jupyter notebook","--allow-root"]
+
+# CMD ["sh","-c","jupyter notebook --ip=0.0.0.0 --no-browser --allow-root --port=8888 --NotebookApp.token='' --NotebookApp.password='' --NotebookApp.allow_origin='*'"]

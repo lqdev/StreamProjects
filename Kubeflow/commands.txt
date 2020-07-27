@@ -1,0 +1,5 @@
+# Build the container image
+docker build -t lqdev/dotnet-interactive:latest -f ./dockerfiles/dotnet-interactive.dockerfile .
+
+# Run the container
+docker run --rm -it -p 8888:8888 -h 0.0.0.0 lqdev/dotnet-interactive:latest /bin/bash
