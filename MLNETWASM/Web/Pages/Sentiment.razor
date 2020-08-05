@@ -1,0 +1,39 @@
+@page "/sentiment"
+@inject HttpClient _client
+
+<input type="text" @bind="UserInput" />
+<button @onclick="GetPrediction">Make prediction</button>
+@if (@ModelPrediction == null)
+{
+    <p>Enter data to get a prediction</p>
+}
+else
+{
+    <p>@ModelPrediction</p>
+}
+
+@code {
+
+    private PredictionEngine<SentimentData, SentimentPrediction> _predictionEngine;
+    private string UserInput, ModelPrediction;
+
+    protected override async Task OnInitializedAsync()
+    {
+        Stream savedModel = await _client.GetStreamAsync("https://github.com/dotnet/samples/raw/master/machine-learning/models/sentimentanalysis/sentiment_model.zip");
+        MLContext mlContext = new MLContext();
+        ITransformer _model = mlContext.Model.Load(savedModel, out DataViewSchema schema);
+        _predictionEngine = mlContext.Model.CreatePredictionEngine<SentimentData, SentimentPrediction>(_model);
+    }
+
+    private void GetPrediction()
+    {
+        SentimentData input = new SentimentData
+        {
+            SentimentText = UserInput
+        };
+
+        SentimentPrediction prediction = _predictionEngine.Predict(input);
+
+        ModelPrediction = prediction.Prediction ? "Positive" : "Negative";
+    }
+}
