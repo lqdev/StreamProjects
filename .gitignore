@@ -351,3 +351,5 @@ MigrationBackup/
 
 # ipynb checkpoints
 **/.ipynb_checkpoints/*
+
+.vscode/
