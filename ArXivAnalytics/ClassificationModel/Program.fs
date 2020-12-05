@@ -1,38 +1,59 @@
 // Learn more about F# at http://docs.microsoft.com/dotnet/fsharp
 
 open System
+open System.Diagnostics
+open System.IO
+open System.Text
+open System.Text.Json
+open System.Text.Json.Serialization
 open Microsoft.ML
 open Microsoft.ML.Data
 
 (*Define Data Schema*)
 [<CLIMutable>]
 type ArxivData = {
-    [<LoadColumn(0)>] Title : string
-    [<LoadColumn(1)>] Abstract : string
-    [<LoadColumn(2)>] Categories : string
+    [<JsonPropertyName("title")>]
+    Title : string
+    
+    [<JsonPropertyName("abstract")>]
+    Abstract : string
+    
+    [<JsonPropertyName("categories")>]
+    Categories : string
+}
+
+let loadData (file:String) = seq {
+    use reader = new StreamReader(file)
+    while not reader.EndOfStream do
+        let line = reader.ReadLine()
+        yield JsonSerializer.Deserialize<ArxivData>(line)
 }
 
 [<EntryPoint>]
 let main argv =
 
     (*Define paths*)
-    let trainDataPath = "/datadrive/Data/ArXivTrainData/part-00000-f96ec43e-ba4c-462c-8793-cc605d146665-c000.csv"
+    let trainDataPath = "/datadrive/Data/ArXivTrainData/"
     let labelColumnName = "Categories"
-    
+
+    (*Data*)
+    let trainFile = 
+        Directory.GetFiles(trainDataPath)
+        |> Array.filter(fun file -> Path.GetExtension(file) = ".json")
+        |> Seq.head    
+
+    printfn "Train File: %s" trainFile
+
+    let trainData = loadData trainFile
+
     (*Initialize MLContext*)
     let mlContext = MLContext()
 
     (*Load data into IDataView*)
-    let textLoaderOptions = TextLoader.Options()
-    textLoaderOptions.AllowQuoting <- true
-    textLoaderOptions.HasHeader <- true
-    textLoaderOptions.Separators <- [|','|]
-    textLoaderOptions.ReadMultilines <- true
-
     let arxivDataView = 
         mlContext
             .Data
-            .LoadFromTextFile<ArxivData>(trainDataPath,textLoaderOptions)
+            .LoadFromEnumerable<ArxivData>(trainData)
 
     (*Define pipeline*)
     let pipeline = 
@@ -50,15 +71,24 @@ let main argv =
 
     printfn "Finished training"
 
-    let predictions = model.Transform(arxivDataView)
+    printfn "Saving model"
+    
+    mlContext.Model.Save(model,arxivDataView.Schema,"arxiv-model.zip")
+    
+    printfn "Model saved"
 
-    printfn "Evaluating model"
+    // let predictions = model.Transform(arxivDataView)
 
-    let eval = 
-        mlContext
-            .MulticlassClassification
-            .Evaluate(predictions)
+    // printfn "Evaluating model"
 
-    printfn "Log Loss: %f" eval.LogLoss
+    // let eval = 
+    //     mlContext
+    //         .MulticlassClassification
+    //         .Evaluate(predictions)
+
+    // printfn "Log Loss: %f" eval.LogLoss
+    
+    // let results = sprintf "Log Loss: %f / Train Time: %A" eval.LogLoss sw.Elapsed
+    // File.WriteAllText("output.txt",results)
 
     0 // return an integer exit code
