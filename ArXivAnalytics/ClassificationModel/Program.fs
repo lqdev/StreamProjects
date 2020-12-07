@@ -44,7 +44,7 @@ let main argv =
 
     printfn "Train File: %s" trainFile
 
-    let trainData = loadData trainFile
+    let trainData = loadData trainFile |> Seq.take 250000
 
     (*Initialize MLContext*)
     let mlContext = MLContext()
@@ -77,18 +77,15 @@ let main argv =
     
     printfn "Model saved"
 
-    // let predictions = model.Transform(arxivDataView)
+    let predictions = model.Transform(arxivDataView)
 
-    // printfn "Evaluating model"
+    printfn "Evaluating model"
 
-    // let eval = 
-    //     mlContext
-    //         .MulticlassClassification
-    //         .Evaluate(predictions)
+    let eval = 
+         mlContext
+             .MulticlassClassification
+             .Evaluate(predictions)
 
-    // printfn "Log Loss: %f" eval.LogLoss
-    
-    // let results = sprintf "Log Loss: %f / Train Time: %A" eval.LogLoss sw.Elapsed
-    // File.WriteAllText("output.txt",results)
+    printfn "Log Loss: %f" eval.LogLoss
 
     0 // return an integer exit code
